@@ -1,0 +1,2 @@
+# thinkulator
+ai mathematics solver
