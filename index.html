@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI-Based Equation Solver and Learning Assistant</title>
+<style>
+  body {
+    background: #f4f8fc;
+    font-family: "Poppins", sans-serif;
+    color: #1e2a44;
+    margin: 0;
+    padding: 0;
+  }
+  .container {
+    max-width: 900px;
+    margin: auto;
+    padding: 2rem;
+  }
+  header {
+    text-align: center;
+    background: linear-gradient(90deg, #1e2a44, #7fa8d6);
+    color: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+  }
+  header h1 {
+    margin-bottom: 0.3rem;
+  }
+  .section {
+    background: #ffffff;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-top: 1.5rem;
+    box-shadow: 0 3px 10px rgba(30, 42, 68, 0.15);
+  }
+  input[type="number"] {
+    width: 90px;
+    padding: 0.4rem;
+    margin: 0.3rem;
+    border: 1px solid #bdd0e7;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  button {
+    padding: 0.6rem 1.2rem;
+    background-color: #1e2a44;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  button:hover {
+    background-color: #274674;
+  }
+  .steps, .solution {
+    margin-top: 1rem;
+  }
+  ul {
+    line-height: 1.8;
+  }
+  footer {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    color: #333;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>AI-Based Equation Solver & Learning Assistant</h1>
+      <p>Learn • Practice • Improve</p>
+    </header>
+
+    <div class="section">
+      <h2>Enter Quadratic Equation</h2>
+      <p>Enter coefficients for the equation ax² + bx + c = 0</p>
+      <div>
+        <label>a: </label><input type="number" id="a" placeholder="a">
+        <label>b: </label><input type="number" id="b" placeholder="b">
+        <label>c: </label><input type="number" id="c" placeholder="c">
+        <button onclick="solveEquation()">Solve</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Solution Explanation</h2>
+      <p class="solution" id="solution"></p>
+      <div class="steps">
+        <ul id="steps"></ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Practice Section</h2>
+      <p>Try solving this new problem and check yourself:</p>
+      <p id="practiceEqn"></p>
+      <button onclick="generatePractice()">Get New Practice Question</button>
+    </div>
+
+    <footer>
+      Designed for Class 11 Science Fair | Theme: Pastel & Blue
+    </footer>
+  </div>
+
+  <script>
+    function solveEquation() {
+      const a = parseFloat(document.getElementById('a').value);
+      const b = parseFloat(document.getElementById('b').value);
+      const c = parseFloat(document.getElementById('c').value);
+      const resultEl = document.getElementById('solution');
+      const stepsEl = document.getElementById('steps');
+      stepsEl.innerHTML = '';
+      if (isNaN(a) || isNaN(b) || isNaN(c)) {
+        resultEl.textContent = "Please enter valid numbers for a, b, and c.";
+        return;
+      }
+
+      const disc = b*b - 4*a*c;
+      const steps = [
+        `Step 1: Equation given: ${a}x² + ${b}x + ${c} = 0`,
+        `Step 2: Discriminant (?) = b² - 4ac = (${b})² - 4(${a})(${c}) = ${disc}`
+      ];
+
+      if (disc < 0) {
+        resultEl.textContent = "No real roots exist because ? < 0.";
+        steps.push("Since the discriminant is negative, the equation has complex roots.");
+      } else {
+        const root1 = ((-b) + Math.sqrt(disc)) / (2*a);
+        const root2 = ((-b) - Math.sqrt(disc)) / (2*a);
+        steps.push("Step 3: Formula: x = (-b ± v?) / 2a");
+        steps.push(`Step 4: x1 = ${root1.toFixed(3)}`);
+        steps.push(`Step 5: x2 = ${root2.toFixed(3)}`);
+        resultEl.textContent = `Roots are: x1 = ${root1.toFixed(3)}, x2 = ${root2.toFixed(3)}`;
+      }
+
+      steps.forEach(step => {
+        const li = document.createElement('li');
+        li.textContent = step;
+        stepsEl.appendChild(li);
+      });
+    }
+
+    function generatePractice() {
+      const a = Math.floor(Math.random()*5)+1;
+      const b = Math.floor(Math.random()*10)-5;
+      const c = Math.floor(Math.random()*10)-5;
+      document.getElementById('practiceEqn').textContent = `${a}x² + ${b}x + ${c} = 0`;
+    }
+
+    window.onload = generatePractice;
+  </script>
+</body>
+</html>
